@@ -7,6 +7,8 @@ let levelScore = 0;
 let particles = [];
 let obstacles = [];
 let player;
+let currentGameState = 'menu';
+let levelButtons = [];
 
 // Canvas dimensions
 let canvasWidth, canvasHeight;
@@ -24,11 +26,14 @@ function initGame() {
   // Initialize the game
   kontra.init();
   kontra.initKeys();
+  kontra.initPointer();
 
   // Get canvas dimensions
   const canvas = kontra.getCanvas();
   canvasWidth = canvas.width;
   canvasHeight = canvas.height;
+
+  createLevelSelectionMenu();
 
   // Create player
   player = kontra.Sprite({
@@ -74,24 +79,44 @@ function initGame() {
   // Game loop
   const loop = kontra.GameLoop({
     update() {
-      if (isLevelComplete) return;
-
-      player.update();
-      particles.forEach(particle => particle.update());
-      checkLevelCompletion();
+      if (currentGameState === 'menu') {
+        // Update menu logic
+        levelButtons.forEach(button => button.update());
+      } else if (currentGameState === 'playing') {
+        if (isLevelComplete) return;
+        player.update();
+        particles.forEach(particle => particle.update());
+        checkLevelCompletion();
+      }
     },
     render() {
       const context = kontra.getContext();
       context.clearRect(0, 0, canvasWidth, canvasHeight);
 
-      obstacles.forEach(obstacle => obstacle.render());
-      particles.forEach(particle => particle.render());
-      player.render();
-
-      if (isLevelComplete) {
+      if (currentGameState === 'menu') {
         context.fillStyle = 'white';
-        context.font = '24px Arial';
-        context.fillText('Level Complete!', canvasWidth / 2 - 70, canvasHeight / 2);
+        context.font = '30px Arial';
+        context.textAlign = 'center';
+        context.fillText('Select a Level', canvasWidth / 2, 50);
+        levelButtons.forEach(button => button.render());
+      } else if (currentGameState === 'playing') {
+        obstacles.forEach(obstacle => obstacle.render());
+        particles.forEach(particle => particle.render());
+        player.render();
+
+        context.fillStyle = 'white';
+        context.font = '20px Arial';
+        context.textAlign = 'left';
+        context.fillText(`Level: ${currentLevel + 1}`, 10, 30);
+        context.fillText(`Score: ${gameScore}`, 10, 60);
+        context.fillText(`Level Score: ${levelScore}`, 10, 90);
+
+        if (isLevelComplete) {
+          context.fillStyle = 'white';
+          context.font = '24px Arial';
+          context.textAlign = 'center';
+          context.fillText('Level Complete!', canvasWidth/2, canvasHeight/2);
+        }
       }
     }
   });
@@ -158,6 +183,45 @@ function createObstacle(x, y, width, height) {
   });
 }
 
+function createLevelSelectionMenu() {
+  const buttonWidth = 100;
+  const buttonHeight = 40;
+  const buttonsPerRow = 5;
+  const startX = (canvasWidth - (buttonWidth * buttonsPerRow + 20 * (buttonsPerRow - 1))) / 2;
+  const startY = 100;
+
+  levels.forEach((level, index) => {
+    const row = Math.floor(index / buttonsPerRow);
+    const col = index % buttonsPerRow;
+    const x = startX + (buttonWidth + 20) * col;
+    const y = startY + (buttonHeight + 20) * row;
+
+    const button = kontra.Button({
+      x: x,
+      y: y,
+      width: buttonWidth,
+      height: buttonHeight,
+      color: 'blue',
+      text: {
+        text: `Level ${index + 1}`,
+        color: 'white',
+        font: '16px Arial, sans-serif',
+        anchor: {x: 0.5, y: 0.5}
+      },
+      onDown() {
+        startLevel(index);
+      }
+    });
+
+    levelButtons.push(button);
+  });
+}
+
+function startLevel(levelIndex) {
+  currentGameState = 'playing';
+  loadLevel(levelIndex);
+}
+
 function loadLevel(levelIndex) {
   currentLevel = levelIndex;
   isLevelComplete = false;
@@ -180,6 +244,15 @@ function loadLevel(levelIndex) {
   player.y = 50;
 
   updateScoreDisplay();
+
+  currentGameState = 'playing';
+}
+
+function returnToMenu() {
+  currentGameState = 'menu';
+  isLevelComplete = false;
+  gameScore = 0;
+  levelScore = 0;
 }
 
 function checkLevelCompletion() {
@@ -187,12 +260,14 @@ function checkLevelCompletion() {
     isLevelComplete = true;
     gameScore += levelScore;
     console.log(`Level complete! Score: ${levelScore}`);
-    updateScoreDisplay();
     setTimeout(() => {
       if (currentLevel < levels.length - 1) {
         loadLevel(currentLevel + 1);
       } else {
         console.log(`Game complete! Total score: ${gameScore}`);
+        currentGameState = 'menu';
+        gameScore = 0;
+        levelScore = 0;
       }
     }, 1000);
   }
