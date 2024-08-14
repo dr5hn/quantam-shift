@@ -4,19 +4,33 @@ Quantum Shift is a minimalist puzzle game created for the js13kGames competition
 
 ## How to Play
 
-1. **Controls**: Use the arrow keys to move your particle (blue square) around the screen.
+1. **Controls**:
+   - Use the arrow keys to move your quantum particle (blue square) around the screen.
 
-2. **Objective**: Your goal is to change the state of all particles in each level to match their target state.
+2. **Particles**:
+   - Other squares on the screen are particles that can be in two states:
+     * Red: Normal state
+     * Purple: Quantum state
 
-3. **Particle States**:
-   - Red particles are in a "normal" state
-   - Purple particles are in a "quantum" state
+3. **Target States**:
+   - Each particle has an colored outline indicating its target state:
+     * Red outline: The particle should be red to complete the level
+     * Purple outline: The particle should be purple to complete the level
 
-4. **Changing States**: Move your particle to touch other particles. This will toggle their state between normal (red) and quantum (purple).
+4. **Changing Particle States**:
+   - Move your blue square to touch other particles.
+   - When touched, particles will toggle between red and purple states.
 
-5. **Completing Levels**: A level is complete when all particles are in their correct target state. The game will display a "Level Complete!" message before moving to the next level.
+5. **Objective**:
+   - Your goal is to make all particles match their outlined color.
+   - For example, a particle with a purple outline should be purple to complete the level.
 
-6. **Winning the Game**: Complete all levels to win the game.
+6. **Completing Levels**:
+   - A level is complete when all particles match their target state (outlined color).
+   - The game will display a "Level Complete!" message before moving to the next level.
+
+7. **Winning the Game**:
+   - Complete all levels to win the game.
 
 ## Development
 
