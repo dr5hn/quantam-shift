@@ -14,7 +14,7 @@ let levelButtons = [];
 let canvasWidth, canvasHeight;
 
 // Load levels from JSON file
-fetch('/assets/json/levels.json')
+fetch('assets/json/levels.json')
   .then(response => response.json())
   .then(data => {
     levels = data.levels;
