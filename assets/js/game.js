@@ -1,6 +1,9 @@
 // Initialize the game
 kontra.init();
 
+// Initialize keyboard
+kontra.initKeys();
+
 // Get canvas dimensions
 const canvas = kontra.getCanvas();
 const canvasWidth = canvas.width;
@@ -22,12 +25,12 @@ const player = kontra.Sprite({
   speed: 3,
 
   update() {
-    if (kontra.keyPressed('left')) this.dx = -this.speed;
-    else if (kontra.keyPressed('right')) this.dx = this.speed;
+    if (kontra.keyPressed('arrowleft')) this.dx = -this.speed;
+    else if (kontra.keyPressed('arrowright')) this.dx = this.speed;
     else this.dx = 0;
 
-    if (kontra.keyPressed('up')) this.dy = -this.speed;
-    else if (kontra.keyPressed('down')) this.dy = this.speed;
+    if (kontra.keyPressed('arrowup')) this.dy = -this.speed;
+    else if (kontra.keyPressed('arrowdown')) this.dy = this.speed;
     else this.dy = 0;
 
     this.advance();
