@@ -10,6 +10,8 @@ const canvasHeight = canvas.height;
 // Game state
 let currentLevel = 0;
 let isLevelComplete = false;
+let gameScore = 0;
+let levelScore = 0;
 
 // Create game objects
 const player = kontra.Sprite({
@@ -33,45 +35,62 @@ const player = kontra.Sprite({
 
     this.advance();
 
+    // Collision with canvas borders and obstacles
     this.x = Math.max(0, Math.min(this.x, canvasWidth - this.width));
     this.y = Math.max(0, Math.min(this.y, canvasHeight - this.height));
+
+    obstacles.forEach(obstacle => {
+      if (kontra.collides(this, obstacle)) {
+        // Simple collision response
+        if (this.dx > 0) this.x = obstacle.x - this.width;
+        if (this.dx < 0) this.x = obstacle.x + obstacle.width;
+        if (this.dy > 0) this.y = obstacle.y - this.height;
+        if (this.dy < 0) this.y = obstacle.y + obstacle.height;
+      }
+    });
   }
 });
-
-// Add game score
-let gameScore = 0;
-let levelScore = 0;
 
 function createParticle(x, y, targetState) {
   return kontra.Sprite({
     x: x,
     y: y,
-    color: 'red',  // Always start as red
+    color: 'red',
     width: 20,
     height: 20,
-    state: 'normal',  // Always start as normal
+    state: 'normal',
     targetState: targetState,
     lastToggleTime: 0,
-    hasChanged: false,  // New property to track if particle has been changed
+    hasChanged: false,
 
     update() {
       const currentTime = Date.now();
       if (currentTime - this.lastToggleTime > 500 && kontra.collides(this, player)) {
         this.toggleState();
         this.lastToggleTime = currentTime;
-        this.hasChanged = true;  // Mark as changed when toggled
+        this.hasChanged = true;
       }
     },
 
     toggleState() {
+      const previousState = this.state;
       this.state = this.state === 'normal' ? 'quantum' : 'normal';
       this.color = this.state === 'normal' ? 'red' : 'purple';
-      levelScore++; // Increment score on each toggle
+
+      // Only increment score if the new state matches the target state
+      // and it wasn't already correct
+      if (this.state === this.targetState && previousState !== this.targetState) {
+        levelScore++;
+      } else if (previousState === this.targetState && this.state !== this.targetState) {
+        // Decrement score if a correct particle is made incorrect
+        levelScore = Math.max(0, levelScore - 1);
+      }
+
+      updateScoreDisplay();
     },
 
     render() {
       this.draw();
-      // Draw target state indicator
       const context = kontra.getContext();
       context.strokeStyle = this.targetState === 'quantum' ? 'purple' : 'red';
       context.lineWidth = 2;
@@ -84,59 +103,101 @@ function createParticle(x, y, targetState) {
   });
 }
 
-// Level definitions
-// ... (previous code remains the same)
+function createObstacle(x, y, width, height) {
+  return kontra.Sprite({
+    x: x,
+    y: y,
+    color: 'gray',
+    width: width,
+    height: height
+  });
+}
 
-// Expanded level definitions
+// Level definitions with obstacles
 const levels = [
-  { particles: [
-    { x: 100, y: 100, targetState: 'quantum' },
-    { x: 300, y: 300, targetState: 'normal' }
-  ]},
-  { particles: [
-    { x: 100, y: 100, targetState: 'quantum' },
-    { x: 200, y: 200, targetState: 'normal' },
-    { x: 300, y: 300, targetState: 'quantum' }
-  ]},
-  { particles: [
-    { x: 100, y: 100, targetState: 'quantum' },
-    { x: 300, y: 100, targetState: 'normal' },
-    { x: 100, y: 300, targetState: 'normal' },
-    { x: 300, y: 300, targetState: 'quantum' }
-  ]},
-  { particles: [
-    { x: 100, y: 100, targetState: 'quantum' },
-    { x: 300, y: 100, targetState: 'normal' },
-    { x: 200, y: 200, targetState: 'quantum' },
-    { x: 100, y: 300, targetState: 'normal' },
-    { x: 300, y: 300, targetState: 'quantum' }
-  ]},
-  { particles: [
-    { x: 100, y: 100, targetState: 'quantum' },
-    { x: 200, y: 100, targetState: 'normal' },
-    { x: 300, y: 100, targetState: 'quantum' },
-    { x: 100, y: 300, targetState: 'normal' },
-    { x: 200, y: 300, targetState: 'quantum' },
-    { x: 300, y: 300, targetState: 'normal' }
-  ]}
+  {
+    particles: [
+      { x: 100, y: 100, targetState: 'quantum' },
+      { x: 500, y: 500, targetState: 'normal' }
+    ],
+    obstacles: [
+      { x: 250, y: 250, width: 100, height: 100 }
+    ]
+  },
+  {
+    particles: [
+      { x: 100, y: 100, targetState: 'quantum' },
+      { x: 500, y: 100, targetState: 'normal' },
+      { x: 300, y: 500, targetState: 'quantum' }
+    ],
+    obstacles: [
+      { x: 250, y: 0, width: 100, height: 300 },
+      { x: 250, y: 400, width: 100, height: 200 }
+    ]
+  },
+  // Add more levels with different particle and obstacle configurations
 ];
 
 let particles = [];
+let obstacles = [];
+
+function checkCollision(sprite1, sprite2) {
+  return sprite1.x < sprite2.x + sprite2.width &&
+         sprite1.x + sprite1.width > sprite2.x &&
+         sprite1.y < sprite2.y + sprite2.height &&
+         sprite1.y + sprite1.height > sprite2.y;
+}
+
+function findValidPosition(particle, existingSprites) {
+  const margin = 10; // Minimum distance from canvas edges
+  let attempts = 0;
+  const maxAttempts = 100;
+
+  while (attempts < maxAttempts) {
+    particle.x = margin + Math.random() * (canvasWidth - particle.width - 2 * margin);
+    particle.y = margin + Math.random() * (canvasHeight - particle.height - 2 * margin);
+
+    if (!existingSprites.some(sprite => checkCollision(particle, sprite))) {
+      return true; // Valid position found
+    }
+
+    attempts++;
+  }
+
+  console.warn("Could not find a valid position for particle after " + maxAttempts + " attempts");
+  return false;
+}
 
 function loadLevel(levelIndex) {
   currentLevel = levelIndex;
   isLevelComplete = false;
-  levelScore = 0; // Reset level score
-  particles = levels[levelIndex].particles.map(p => createParticle(p.x, p.y, p.targetState));
+  levelScore = 0;
+
+  // Create obstacles first
+  obstacles = levels[levelIndex].obstacles.map(o => createObstacle(o.x, o.y, o.width, o.height));
+
+  // Create particles, ensuring they don't overlap with obstacles or each other
+  particles = [];
+  levels[levelIndex].particles.forEach(p => {
+    const particle = createParticle(0, 0, p.targetState); // Initial position doesn't matter
+    if (findValidPosition(particle, [...obstacles, ...particles])) {
+      particles.push(particle);
+    }
+  });
+
+  // Reset player position
   player.x = 50;
   player.y = 50;
+
+  updateScoreDisplay();
 }
 
 function checkLevelCompletion() {
   if (!isLevelComplete && particles.every(p => p.isCorrect())) {
     isLevelComplete = true;
-    gameScore += levelScore; // Add level score to game score
+    gameScore += levelScore;
     console.log(`Level complete! Score: ${levelScore}`);
+    updateScoreDisplay();
     setTimeout(() => {
       if (currentLevel < levels.length - 1) {
         loadLevel(currentLevel + 1);
@@ -147,10 +208,16 @@ function checkLevelCompletion() {
   }
 }
 
+function updateScoreDisplay() {
+  document.getElementById('level-info').textContent = `Level: ${currentLevel + 1}`;
+  document.getElementById('score-info').textContent = `Score: ${gameScore}`;
+  document.getElementById('level-score-info').textContent = `Level Score: ${levelScore}`;
+}
+
 // Load the first level
 loadLevel(0);
 
-// Game loopf
+// Game loop
 const loop = kontra.GameLoop({
   update() {
     if (isLevelComplete) return;
@@ -163,21 +230,10 @@ const loop = kontra.GameLoop({
     const context = kontra.getContext();
     context.clearRect(0, 0, canvasWidth, canvasHeight);
 
+    obstacles.forEach(obstacle => obstacle.render());
     particles.forEach(particle => particle.render());
     player.render();
 
-    // Render game information
-    context.fillStyle = 'white';
-    context.font = '20px Arial';
-    context.fillText(`Level: ${currentLevel + 1}`, 10, 30);
-    context.fillText(`Score: ${gameScore}`, 10, 60);
-    context.fillText(`Level Score: ${levelScore}`, 10, 90);
-
-    // Debug information
-    // context.fillText(`Particles: ${particles.length}`, 10, 60);
-    // context.fillText(`Correct: ${particles.filter(p => p.isCorrect()).length}`, 10, 90);
-
-    // Render level complete message
     if (isLevelComplete) {
       context.fillStyle = 'white';
       context.font = '24px Arial';
