@@ -1,0 +1,429 @@
+{
+    "levels": [
+        {
+            "particles": [
+                {
+                    "targetState": "quantum"
+                },
+                {
+                    "targetState": "normal"
+                }
+            ],
+            "obstacles": []
+        },
+        {
+            "particles": [
+                {
+                    "targetState": "quantum"
+                },
+                {
+                    "targetState": "normal"
+                },
+                {
+                    "targetState": "quantum"
+                }
+            ],
+            "obstacles": [
+                {
+                    "x": 250,
+                    "y": 250,
+                    "width": 100,
+                    "height": 100
+                }
+            ]
+        },
+        {
+            "particles": [
+                {
+                    "targetState": "quantum"
+                },
+                {
+                    "targetState": "normal"
+                },
+                {
+                    "targetState": "quantum"
+                },
+                {
+                    "targetState": "normal"
+                }
+            ],
+            "obstacles": [
+                {
+                    "x": 200,
+                    "y": 200,
+                    "width": 200,
+                    "height": 50
+                }
+            ]
+        },
+        {
+            "particles": [
+                {
+                    "targetState": "quantum"
+                },
+                {
+                    "targetState": "normal"
+                },
+                {
+                    "targetState": "quantum"
+                },
+                {
+                    "targetState": "normal"
+                }
+            ],
+            "obstacles": [
+                {
+                    "x": 100,
+                    "y": 100,
+                    "width": 400,
+                    "height": 20
+                },
+                {
+                    "x": 100,
+                    "y": 300,
+                    "width": 400,
+                    "height": 20
+                },
+                {
+                    "x": 100,
+                    "y": 100,
+                    "width": 20,
+                    "height": 220
+                },
+                {
+                    "x": 480,
+                    "y": 100,
+                    "width": 20,
+                    "height": 220
+                }
+            ]
+        },
+        {
+            "particles": [
+                {
+                    "targetState": "quantum"
+                },
+                {
+                    "targetState": "normal"
+                },
+                {
+                    "targetState": "quantum"
+                },
+                {
+                    "targetState": "normal"
+                },
+                {
+                    "targetState": "quantum"
+                }
+            ],
+            "obstacles": [
+                {
+                    "x": 100,
+                    "y": 100,
+                    "width": 50,
+                    "height": 400
+                },
+                {
+                    "x": 200,
+                    "y": 100,
+                    "width": 50,
+                    "height": 400
+                },
+                {
+                    "x": 300,
+                    "y": 100,
+                    "width": 50,
+                    "height": 400
+                },
+                {
+                    "x": 400,
+                    "y": 100,
+                    "width": 50,
+                    "height": 400
+                }
+            ]
+        },
+        {
+            "particles": [
+                {
+                    "targetState": "quantum"
+                },
+                {
+                    "targetState": "normal"
+                },
+                {
+                    "targetState": "quantum"
+                },
+                {
+                    "targetState": "normal"
+                },
+                {
+                    "targetState": "quantum"
+                },
+                {
+                    "targetState": "normal"
+                }
+            ],
+            "obstacles": [
+                {
+                    "x": 200,
+                    "y": 200,
+                    "width": 200,
+                    "height": 200
+                }
+            ]
+        },
+        {
+            "particles": [
+                {
+                    "targetState": "quantum"
+                },
+                {
+                    "targetState": "normal"
+                },
+                {
+                    "targetState": "quantum"
+                },
+                {
+                    "targetState": "normal"
+                },
+                {
+                    "targetState": "quantum"
+                },
+                {
+                    "targetState": "normal"
+                },
+                {
+                    "targetState": "quantum"
+                }
+            ],
+            "obstacles": [
+                {
+                    "x": 100,
+                    "y": 100,
+                    "width": 50,
+                    "height": 50
+                },
+                {
+                    "x": 300,
+                    "y": 200,
+                    "width": 50,
+                    "height": 50
+                },
+                {
+                    "x": 450,
+                    "y": 350,
+                    "width": 50,
+                    "height": 50
+                },
+                {
+                    "x": 200,
+                    "y": 450,
+                    "width": 50,
+                    "height": 50
+                },
+                {
+                    "x": 500,
+                    "y": 100,
+                    "width": 50,
+                    "height": 50
+                }
+            ]
+        },
+        {
+            "particles": [
+                {
+                    "targetState": "quantum"
+                },
+                {
+                    "targetState": "normal"
+                },
+                {
+                    "targetState": "quantum"
+                },
+                {
+                    "targetState": "normal"
+                },
+                {
+                    "targetState": "quantum"
+                },
+                {
+                    "targetState": "normal"
+                },
+                {
+                    "targetState": "quantum"
+                },
+                {
+                    "targetState": "normal"
+                }
+            ],
+            "obstacles": [
+                {
+                    "x": 0,
+                    "y": 150,
+                    "width": 500,
+                    "height": 20
+                },
+                {
+                    "x": 100,
+                    "y": 300,
+                    "width": 500,
+                    "height": 20
+                },
+                {
+                    "x": 0,
+                    "y": 450,
+                    "width": 500,
+                    "height": 20
+                }
+            ]
+        },
+        {
+            "particles": [
+                {
+                    "targetState": "quantum"
+                },
+                {
+                    "targetState": "normal"
+                },
+                {
+                    "targetState": "quantum"
+                },
+                {
+                    "targetState": "normal"
+                },
+                {
+                    "targetState": "quantum"
+                },
+                {
+                    "targetState": "normal"
+                },
+                {
+                    "targetState": "quantum"
+                },
+                {
+                    "targetState": "normal"
+                },
+                {
+                    "targetState": "quantum"
+                }
+            ],
+            "obstacles": [
+                {
+                    "x": 100,
+                    "y": 0,
+                    "width": 20,
+                    "height": 500
+                },
+                {
+                    "x": 200,
+                    "y": 100,
+                    "width": 20,
+                    "height": 500
+                },
+                {
+                    "x": 300,
+                    "y": 0,
+                    "width": 20,
+                    "height": 500
+                },
+                {
+                    "x": 400,
+                    "y": 100,
+                    "width": 20,
+                    "height": 500
+                },
+                {
+                    "x": 0,
+                    "y": 200,
+                    "width": 500,
+                    "height": 20
+                },
+                {
+                    "x": 100,
+                    "y": 400,
+                    "width": 500,
+                    "height": 20
+                }
+            ]
+        },
+        {
+            "particles": [
+                {
+                    "targetState": "quantum"
+                },
+                {
+                    "targetState": "normal"
+                },
+                {
+                    "targetState": "quantum"
+                },
+                {
+                    "targetState": "normal"
+                },
+                {
+                    "targetState": "quantum"
+                },
+                {
+                    "targetState": "normal"
+                },
+                {
+                    "targetState": "quantum"
+                },
+                {
+                    "targetState": "normal"
+                },
+                {
+                    "targetState": "quantum"
+                },
+                {
+                    "targetState": "normal"
+                }
+            ],
+            "obstacles": [
+                {
+                    "x": 0,
+                    "y": 100,
+                    "width": 500,
+                    "height": 20
+                },
+                {
+                    "x": 100,
+                    "y": 200,
+                    "width": 500,
+                    "height": 20
+                },
+                {
+                    "x": 0,
+                    "y": 300,
+                    "width": 500,
+                    "height": 20
+                },
+                {
+                    "x": 100,
+                    "y": 400,
+                    "width": 500,
+                    "height": 20
+                },
+                {
+                    "x": 100,
+                    "y": 0,
+                    "width": 20,
+                    "height": 500
+                },
+                {
+                    "x": 300,
+                    "y": 100,
+                    "width": 20,
+                    "height": 500
+                },
+                {
+                    "x": 500,
+                    "y": 0,
+                    "width": 20,
+                    "height": 500
+                }
+            ]
+        }
+    ]
+}

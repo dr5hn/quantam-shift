@@ -9,22 +9,38 @@
     <style>
         body {
             margin: 0;
-            padding: 0;
+            padding: 20px;
             background-color: #000;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        #game-container {
             display: flex;
             justify-content: center;
-            align-items: center;
-            height: 100vh;
+            align-items: flex-start;
         }
 
         canvas {
             border: 1px solid #fff;
         }
+
+        #game-info {
+            margin-left: 20px;
+        }
     </style>
 </head>
 
 <body>
-    <canvas width="400" height="400" id="game"></canvas>
+    <div id="game-container">
+        <canvas width="600" height="600" id="game"></canvas>
+        <div id="game-info">
+            <h2>Quantum Shift</h2>
+            <p id="level-info">Level: 1</p>
+            <p id="score-info">Score: 0</p>
+            <p id="level-score-info">Level Score: 0</p>
+        </div>
+    </div>
     <script src="/assets/js/kontra.min.js"></script>
     <script src="/assets/js/game.js"></script>
 </body>

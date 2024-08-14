@@ -1,55 +1,103 @@
-// Initialize the game
-kontra.init();
-kontra.initKeys();
-
-// Get canvas dimensions
-const canvas = kontra.getCanvas();
-const canvasWidth = canvas.width;
-const canvasHeight = canvas.height;
-
-// Game state
+// Global variables
+let levels = [];
 let currentLevel = 0;
 let isLevelComplete = false;
 let gameScore = 0;
 let levelScore = 0;
+let particles = [];
+let obstacles = [];
+let player;
 
-// Create game objects
-const player = kontra.Sprite({
-  x: 50,
-  y: 50,
-  color: 'blue',
-  width: 20,
-  height: 20,
-  dx: 0,
-  dy: 0,
-  speed: 3,
+// Canvas dimensions
+let canvasWidth, canvasHeight;
 
-  update() {
-    if (kontra.keyPressed('arrowleft')) this.dx = -this.speed;
-    else if (kontra.keyPressed('arrowright')) this.dx = this.speed;
-    else this.dx = 0;
+// Load levels from JSON file
+fetch('/assets/json/levels.json')
+  .then(response => response.json())
+  .then(data => {
+    levels = data.levels;
+    initGame();
+  })
+  .catch(error => console.error('Error loading levels:', error));
 
-    if (kontra.keyPressed('arrowup')) this.dy = -this.speed;
-    else if (kontra.keyPressed('arrowdown')) this.dy = this.speed;
-    else this.dy = 0;
+function initGame() {
+  // Initialize the game
+  kontra.init();
+  kontra.initKeys();
 
-    this.advance();
+  // Get canvas dimensions
+  const canvas = kontra.getCanvas();
+  canvasWidth = canvas.width;
+  canvasHeight = canvas.height;
 
-    // Collision with canvas borders and obstacles
-    this.x = Math.max(0, Math.min(this.x, canvasWidth - this.width));
-    this.y = Math.max(0, Math.min(this.y, canvasHeight - this.height));
+  // Create player
+  player = kontra.Sprite({
+    x: 50,
+    y: 50,
+    color: 'blue',
+    width: 20,
+    height: 20,
+    dx: 0,
+    dy: 0,
+    speed: 3,
 
-    obstacles.forEach(obstacle => {
-      if (kontra.collides(this, obstacle)) {
-        // Simple collision response
-        if (this.dx > 0) this.x = obstacle.x - this.width;
-        if (this.dx < 0) this.x = obstacle.x + obstacle.width;
-        if (this.dy > 0) this.y = obstacle.y - this.height;
-        if (this.dy < 0) this.y = obstacle.y + obstacle.height;
+    update() {
+      if (kontra.keyPressed('arrowleft')) this.dx = -this.speed;
+      else if (kontra.keyPressed('arrowright')) this.dx = this.speed;
+      else this.dx = 0;
+
+      if (kontra.keyPressed('arrowup')) this.dy = -this.speed;
+      else if (kontra.keyPressed('arrowdown')) this.dy = this.speed;
+      else this.dy = 0;
+
+      this.advance();
+
+      // Collision with canvas borders and obstacles
+      this.x = Math.max(0, Math.min(this.x, canvasWidth - this.width));
+      this.y = Math.max(0, Math.min(this.y, canvasHeight - this.height));
+
+      obstacles.forEach(obstacle => {
+        if (kontra.collides(this, obstacle)) {
+          // Simple collision response
+          if (this.dx > 0) this.x = obstacle.x - this.width;
+          if (this.dx < 0) this.x = obstacle.x + obstacle.width;
+          if (this.dy > 0) this.y = obstacle.y - this.height;
+          if (this.dy < 0) this.y = obstacle.y + obstacle.height;
+        }
+      });
+    }
+  });
+
+  // Load the first level
+  loadLevel(0);
+
+  // Game loop
+  const loop = kontra.GameLoop({
+    update() {
+      if (isLevelComplete) return;
+
+      player.update();
+      particles.forEach(particle => particle.update());
+      checkLevelCompletion();
+    },
+    render() {
+      const context = kontra.getContext();
+      context.clearRect(0, 0, canvasWidth, canvasHeight);
+
+      obstacles.forEach(obstacle => obstacle.render());
+      particles.forEach(particle => particle.render());
+      player.render();
+
+      if (isLevelComplete) {
+        context.fillStyle = 'white';
+        context.font = '24px Arial';
+        context.fillText('Level Complete!', canvasWidth / 2 - 70, canvasHeight / 2);
       }
-    });
-  }
-});
+    }
+  });
+
+  loop.start();
+}
 
 function createParticle(x, y, targetState) {
   return kontra.Sprite({
@@ -77,12 +125,9 @@ function createParticle(x, y, targetState) {
       this.state = this.state === 'normal' ? 'quantum' : 'normal';
       this.color = this.state === 'normal' ? 'red' : 'purple';
 
-      // Only increment score if the new state matches the target state
-      // and it wasn't already correct
       if (this.state === this.targetState && previousState !== this.targetState) {
         levelScore++;
       } else if (previousState === this.targetState && this.state !== this.targetState) {
-        // Decrement score if a correct particle is made incorrect
         levelScore = Math.max(0, levelScore - 1);
       }
 
@@ -113,73 +158,18 @@ function createObstacle(x, y, width, height) {
   });
 }
 
-// Level definitions with obstacles
-const levels = [
-  {
-    particles: [
-      { x: 100, y: 100, targetState: 'quantum' },
-      { x: 500, y: 500, targetState: 'normal' }
-    ],
-    obstacles: [
-      { x: 250, y: 250, width: 100, height: 100 }
-    ]
-  },
-  {
-    particles: [
-      { x: 100, y: 100, targetState: 'quantum' },
-      { x: 500, y: 100, targetState: 'normal' },
-      { x: 300, y: 500, targetState: 'quantum' }
-    ],
-    obstacles: [
-      { x: 250, y: 0, width: 100, height: 300 },
-      { x: 250, y: 400, width: 100, height: 200 }
-    ]
-  },
-  // Add more levels with different particle and obstacle configurations
-];
-
-let particles = [];
-let obstacles = [];
-
-function checkCollision(sprite1, sprite2) {
-  return sprite1.x < sprite2.x + sprite2.width &&
-         sprite1.x + sprite1.width > sprite2.x &&
-         sprite1.y < sprite2.y + sprite2.height &&
-         sprite1.y + sprite1.height > sprite2.y;
-}
-
-function findValidPosition(particle, existingSprites) {
-  const margin = 10; // Minimum distance from canvas edges
-  let attempts = 0;
-  const maxAttempts = 100;
-
-  while (attempts < maxAttempts) {
-    particle.x = margin + Math.random() * (canvasWidth - particle.width - 2 * margin);
-    particle.y = margin + Math.random() * (canvasHeight - particle.height - 2 * margin);
-
-    if (!existingSprites.some(sprite => checkCollision(particle, sprite))) {
-      return true; // Valid position found
-    }
-
-    attempts++;
-  }
-
-  console.warn("Could not find a valid position for particle after " + maxAttempts + " attempts");
-  return false;
-}
-
 function loadLevel(levelIndex) {
   currentLevel = levelIndex;
   isLevelComplete = false;
   levelScore = 0;
 
-  // Create obstacles first
+  // Create obstacles
   obstacles = levels[levelIndex].obstacles.map(o => createObstacle(o.x, o.y, o.width, o.height));
 
-  // Create particles, ensuring they don't overlap with obstacles or each other
+  // Create particles
   particles = [];
   levels[levelIndex].particles.forEach(p => {
-    const particle = createParticle(0, 0, p.targetState); // Initial position doesn't matter
+    const particle = createParticle(0, 0, p.targetState);
     if (findValidPosition(particle, [...obstacles, ...particles])) {
       particles.push(particle);
     }
@@ -214,32 +204,22 @@ function updateScoreDisplay() {
   document.getElementById('level-score-info').textContent = `Level Score: ${levelScore}`;
 }
 
-// Load the first level
-loadLevel(0);
+function findValidPosition(particle, existingSprites) {
+  const margin = 10; // Minimum distance from canvas edges
+  let attempts = 0;
+  const maxAttempts = 100;
 
-// Game loop
-const loop = kontra.GameLoop({
-  update() {
-    if (isLevelComplete) return;
+  while (attempts < maxAttempts) {
+    particle.x = margin + Math.random() * (canvasWidth - particle.width - 2 * margin);
+    particle.y = margin + Math.random() * (canvasHeight - particle.height - 2 * margin);
 
-    player.update();
-    particles.forEach(particle => particle.update());
-    checkLevelCompletion();
-  },
-  render() {
-    const context = kontra.getContext();
-    context.clearRect(0, 0, canvasWidth, canvasHeight);
-
-    obstacles.forEach(obstacle => obstacle.render());
-    particles.forEach(particle => particle.render());
-    player.render();
-
-    if (isLevelComplete) {
-      context.fillStyle = 'white';
-      context.font = '24px Arial';
-      context.fillText('Level Complete!', canvasWidth/2 - 70, canvasHeight/2);
+    if (!existingSprites.some(sprite => kontra.collides(particle, sprite))) {
+      return true; // Valid position found
     }
-  }
-});
 
-loop.start();
+    attempts++;
+  }
+
+  console.warn("Could not find a valid position for particle after " + maxAttempts + " attempts");
+  return false;
+}
