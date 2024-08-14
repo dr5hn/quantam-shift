@@ -1,12 +1,17 @@
-// Initialize Kontra
+// Initialize the game
 kontra.init();
+
+// Get canvas dimensions
+const canvas = kontra.getCanvas();
+const canvasWidth = canvas.width;
+const canvasHeight = canvas.height;
 
 // Game state
 let currentLevel = 0;
 let isLevelComplete = false;
 
 // Create game objects
-const player = kontra.sprite({
+const player = kontra.Sprite({
   x: 50,
   y: 50,
   color: 'blue',
@@ -17,24 +22,24 @@ const player = kontra.sprite({
   speed: 3,
 
   update() {
-    if (kontra.keys.pressed('left')) this.dx = -this.speed;
-    else if (kontra.keys.pressed('right')) this.dx = this.speed;
+    if (kontra.keyPressed('left')) this.dx = -this.speed;
+    else if (kontra.keyPressed('right')) this.dx = this.speed;
     else this.dx = 0;
 
-    if (kontra.keys.pressed('up')) this.dy = -this.speed;
-    else if (kontra.keys.pressed('down')) this.dy = this.speed;
+    if (kontra.keyPressed('up')) this.dy = -this.speed;
+    else if (kontra.keyPressed('down')) this.dy = this.speed;
     else this.dy = 0;
 
     this.advance();
 
     // Keep player within canvas bounds
-    this.x = Math.max(0, Math.min(this.x, kontra.canvas.width - this.width));
-    this.y = Math.max(0, Math.min(this.y, kontra.canvas.height - this.height));
+    this.x = Math.max(0, Math.min(this.x, canvasWidth - this.width));
+    this.y = Math.max(0, Math.min(this.y, canvasHeight - this.height));
   }
 });
 
 function createParticle(x, y, targetState) {
-  return kontra.sprite({
+  return kontra.Sprite({
     x: x,
     y: y,
     color: 'red',
@@ -44,7 +49,7 @@ function createParticle(x, y, targetState) {
     targetState: targetState,
 
     update() {
-      if (this.collidesWith(player)) {
+      if (kontra.collides(this, player)) {
         this.state = this.state === 'normal' ? 'quantum' : 'normal';
         this.color = this.state === 'normal' ? 'red' : 'purple';
       }
@@ -80,7 +85,7 @@ function loadLevel(levelIndex) {
 loadLevel(0);
 
 // Game loop
-const loop = kontra.gameLoop({
+const loop = kontra.GameLoop({
   update() {
     if (isLevelComplete) return;
 
@@ -102,15 +107,17 @@ const loop = kontra.gameLoop({
     }
   },
   render() {
+    const context = kontra.getContext();
+    context.clearRect(0, 0, canvasWidth, canvasHeight);
+
     player.render();
     particles.forEach(particle => particle.render());
 
     // Render level complete message
     if (isLevelComplete) {
-      const ctx = kontra.context;
-      ctx.fillStyle = 'white';
-      ctx.font = '24px Arial';
-      ctx.fillText('Level Complete!', kontra.canvas.width/2 - 70, kontra.canvas.height/2);
+      context.fillStyle = 'white';
+      context.font = '24px Arial';
+      context.fillText('Level Complete!', canvasWidth/2 - 70, canvasHeight/2);
     }
   }
 });
