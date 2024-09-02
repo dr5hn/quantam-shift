@@ -1,6 +1,7 @@
 {
     "levels": [
         {
+            "_level": "Level 1",
             "particles": [
                 {
                     "targetState": "quantum"
@@ -12,6 +13,7 @@
             "obstacles": []
         },
         {
+            "_level": "Level 2",
             "particles": [
                 {
                     "targetState": "quantum"
@@ -33,6 +35,7 @@
             ]
         },
         {
+            "_level": "Level 3",
             "particles": [
                 {
                     "targetState": "quantum"
@@ -57,6 +60,7 @@
             ]
         },
         {
+            "_level": "Level 4",
             "particles": [
                 {
                     "targetState": "quantum"
@@ -74,76 +78,20 @@
             "obstacles": [
                 {
                     "x": 100,
-                    "y": 100,
-                    "width": 400,
-                    "height": 20
-                },
-                {
-                    "x": 100,
-                    "y": 300,
-                    "width": 400,
-                    "height": 20
-                },
-                {
-                    "x": 100,
-                    "y": 100,
-                    "width": 20,
-                    "height": 220
-                },
-                {
-                    "x": 480,
-                    "y": 100,
-                    "width": 20,
-                    "height": 220
-                }
-            ]
-        },
-        {
-            "particles": [
-                {
-                    "targetState": "quantum"
-                },
-                {
-                    "targetState": "normal"
-                },
-                {
-                    "targetState": "quantum"
-                },
-                {
-                    "targetState": "normal"
-                },
-                {
-                    "targetState": "quantum"
-                }
-            ],
-            "obstacles": [
-                {
-                    "x": 100,
-                    "y": 100,
-                    "width": 50,
-                    "height": 400
-                },
-                {
-                    "x": 200,
-                    "y": 100,
-                    "width": 50,
-                    "height": 400
+                    "y": 200,
+                    "width": 250,
+                    "height": 50
                 },
                 {
                     "x": 300,
-                    "y": 100,
-                    "width": 50,
-                    "height": 400
-                },
-                {
-                    "x": 400,
-                    "y": 100,
-                    "width": 50,
-                    "height": 400
+                    "y": 400,
+                    "width": 250,
+                    "height": 50
                 }
             ]
         },
         {
+            "_level": "Level 5",
             "particles": [
                 {
                     "targetState": "quantum"
@@ -159,21 +107,86 @@
                 },
                 {
                     "targetState": "quantum"
-                },
-                {
-                    "targetState": "normal"
                 }
             ],
             "obstacles": [
                 {
+                    "x": 50,
+                    "y": 150,
+                    "width": 50,
+                    "height": 200
+                },
+                {
                     "x": 200,
-                    "y": 200,
-                    "width": 200,
+                    "y": 250,
+                    "width": 50,
+                    "height": 200
+                },
+                {
+                    "x": 350,
+                    "y": 150,
+                    "width": 50,
+                    "height": 200
+                },
+                {
+                    "x": 500,
+                    "y": 250,
+                    "width": 50,
                     "height": 200
                 }
             ]
         },
         {
+            "_level": "Level 6",
+            "particles": [
+                {
+                    "targetState": "quantum"
+                },
+                {
+                    "targetState": "normal"
+                },
+                {
+                    "targetState": "quantum"
+                },
+                {
+                    "targetState": "normal"
+                },
+                {
+                    "targetState": "quantum"
+                },
+                {
+                    "targetState": "normal"
+                }
+            ],
+            "obstacles": [
+                {
+                    "x": 150,
+                    "y": 100,
+                    "width": 400,
+                    "height": 50
+                },
+                {
+                    "x": 150,
+                    "y": 100,
+                    "width": 50,
+                    "height": 200
+                },
+                {
+                    "x": 450,
+                    "y": 200,
+                    "width": 50,
+                    "height": 150
+                },
+                {
+                    "x": 100,
+                    "y": 350,
+                    "width": 400,
+                    "height": 50
+                }
+            ]
+        },
+        {
+            "_level": "Level 7",
             "particles": [
                 {
                     "targetState": "quantum"
@@ -201,36 +214,31 @@
                 {
                     "x": 100,
                     "y": 100,
-                    "width": 50,
+                    "width": 400,
                     "height": 50
                 },
                 {
-                    "x": 300,
-                    "y": 200,
-                    "width": 50,
+                    "x": 100,
+                    "y": 400,
+                    "width": 400,
                     "height": 50
                 },
                 {
-                    "x": 450,
-                    "y": 350,
+                    "x": 150,
+                    "y": 170,
                     "width": 50,
-                    "height": 50
+                    "height": 250
                 },
                 {
-                    "x": 200,
-                    "y": 450,
+                    "x": 400,
+                    "y": 170,
                     "width": 50,
-                    "height": 50
-                },
-                {
-                    "x": 500,
-                    "y": 100,
-                    "width": 50,
-                    "height": 50
+                    "height": 250
                 }
             ]
         },
         {
+            "_level": "Level 8",
             "particles": [
                 {
                     "targetState": "quantum"
@@ -259,26 +267,27 @@
             ],
             "obstacles": [
                 {
-                    "x": 0,
+                    "x": 18,
                     "y": 150,
                     "width": 500,
-                    "height": 20
+                    "height": 50
                 },
                 {
                     "x": 100,
                     "y": 300,
-                    "width": 500,
-                    "height": 20
+                    "width": 482,
+                    "height": 50
                 },
                 {
-                    "x": 0,
+                    "x": 18,
                     "y": 450,
-                    "width": 500,
-                    "height": 20
+                    "width": 560,
+                    "height": 50
                 }
             ]
         },
         {
+            "_level": "Level 9",
             "particles": [
                 {
                     "targetState": "quantum"
@@ -313,19 +322,19 @@
                     "x": 100,
                     "y": 0,
                     "width": 20,
-                    "height": 500
+                    "height": 375
                 },
                 {
-                    "x": 200,
-                    "y": 100,
+                    "x":200,
+                    "y": 240,
                     "width": 20,
-                    "height": 500
+                    "height": 335
                 },
                 {
                     "x": 300,
-                    "y": 0,
+                    "y": 20,
                     "width": 20,
-                    "height": 500
+                    "height": 360
                 },
                 {
                     "x": 400,
@@ -334,20 +343,21 @@
                     "height": 500
                 },
                 {
-                    "x": 0,
+                    "x": 20,
                     "y": 200,
-                    "width": 500,
+                    "width": 300,
                     "height": 20
                 },
                 {
                     "x": 100,
                     "y": 400,
-                    "width": 500,
+                    "width": 480,
                     "height": 20
                 }
             ]
         },
         {
+            "_level": "Level 10",
             "particles": [
                 {
                     "targetState": "quantum"
@@ -382,47 +392,42 @@
             ],
             "obstacles": [
                 {
-                    "x": 0,
+                    "x": 70,
+                    "y": 50,
+                    "width": 460,
+                    "height": 20
+                },
+                {
+                    "x": 70,
                     "y": 100,
-                    "width": 500,
-                    "height": 20
-                },
-                {
-                    "x": 100,
-                    "y": 200,
-                    "width": 500,
-                    "height": 20
-                },
-                {
-                    "x": 0,
-                    "y": 300,
-                    "width": 500,
-                    "height": 20
-                },
-                {
-                    "x": 100,
-                    "y": 400,
-                    "width": 500,
-                    "height": 20
-                },
-                {
-                    "x": 100,
-                    "y": 0,
                     "width": 20,
-                    "height": 500
+                    "height": 370
+                },
+                {
+                    "x": 70,
+                    "y": 500,
+                    "width": 460,
+                    "height": 20
+                },
+                {
+                    "x": 510,
+                    "y": 100,
+                    "width": 20,
+                    "height": 370
+                },
+                {
+                    "x": 20,
+                    "y": 300,
+                    "width": 560,
+                    "height": 20
                 },
                 {
                     "x": 300,
-                    "y": 100,
+                    "y": 20,
                     "width": 20,
-                    "height": 500
-                },
-                {
-                    "x": 500,
-                    "y": 0,
-                    "width": 20,
-                    "height": 500
+                    "height": 565
                 }
+
             ]
         }
     ]
